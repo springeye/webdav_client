@@ -6,9 +6,9 @@ import 'package:webdav_client/webdav_client.dart' as webdav;
 
 void main() {
   var client = webdav.newClient(
-    'https://something',
-    user: 'user',
-    password: 'pwd',
+    'https://nas.j99.xyz:5006/home/',
+    user: 'henjue',
+    password: '510.Sbwcd2030*',
     debug: true,
   );
 
@@ -26,6 +26,20 @@ void main() {
     }
   });
 
+  test('ls', () async {
+    await client.read("/synology.log");
+  });
+  test('findprops', () async {
+    // await client.readProps("/synology.log");
+    const fileXmlStr = '''<d:propertyupdate xmlns:d='DAV:'>
+			<d:set>
+				<d:prop>
+				</d:prop>
+			</d:set>
+		</d:propertyupdate>''';
+
+    await client.writeProps('/synology.log', fileXmlStr)
+  });
   // make folder
   test('make folder', () async {
     await client.mkdir('/新建文件夹');

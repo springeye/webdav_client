@@ -70,10 +70,20 @@ class Client {
 
   /// Read a single files properties
   Future<File> readProps(String path, [CancelToken? cancelToken]) async {
-    path = fixSlashes(path);
+    // path = fixSlashes(path);
     var resp = await this
         .c
         .wdPropfind(this, path, true, fileXmlStr, cancelToken: cancelToken);
+
+    String str = resp.data;
+    return WebdavXml.toFiles(path, str, skipSelf: false).first;
+  }
+  /// Read a single files properties
+  Future<File> writeProps(String path,String xml, [CancelToken? cancelToken]) async {
+    // path = fixSlashes(path);
+    var resp = await this
+        .c
+        .wdProppatch(this, path, true, xml, cancelToken: cancelToken);
 
     String str = resp.data;
     return WebdavXml.toFiles(path, str, skipSelf: false).first;
